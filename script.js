@@ -18,19 +18,24 @@
             location: "/index.html",
             pathname: "/"
         },
-        "about": {
+        "/about": {
             location: "/about.html",
             pathname: "/about"
         },
         "/about.html": {
             location: "/about.html",
             pathname: "/about"
-        },
+        }
     };
 
     const content = document.querySelector(".content");
 
-    async function loadPageContent(pageId) {
+    /**
+     * Loads page content and sets the history state
+     * @param {string} pageId 
+     * @param {boolean} restoreState 
+     */
+    async function loadPageContent(pageId, restoreState) {
         const route = ROUTE_MAP[pageId];
         if (!route) {
             alert("You're a nauhty one, aren't you... ;)");
@@ -47,6 +52,11 @@
         mockElement.innerHTML = responseData;
 
         content.innerHTML = mockElement.querySelector(".content").innerHTML;
+
+        if (restoreState) {
+            return;
+        }
+
         history.pushState({}, "", route.pathname);
     }
 
@@ -67,4 +77,9 @@
     } else if (document.attachEvent) {
         document.attachEvent("onclick", interceptClickEvent);
     }
+
+    window.addEventListener("popstate", (event) => {
+        const { pathname } = location;
+        loadPageContent(pathname, true);
+    });
 })();
