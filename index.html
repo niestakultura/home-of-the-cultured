@@ -1,29 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Man of Culture</title>
-    <meta name="description" content="This site contains culture that will melt your eyes, like that ending scene in Indiana Jones." />
+    <meta name="description"
+        content="This site contains culture that will melt your eyes, like that ending scene in Indiana Jones." />
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-<nav>
-    <ul>
-        <li><a href="/about.html">about</a></li>
-        <li><a href="/">home</a></li>
-    </ul>
-</nav>
+    <nav>
+        <ul>
+            <li><a href="/about.html">about</a></li>
+            <li><a href="/">home</a></li>
+        </ul>
+    </nav>
 
-<div class="content">
-    <h1>Man of Culture</h1>
-    <p>Welcome to our little site of culture and just plain old silliness!</p>
+    <div class="content">
+        <h1>Man of Culture</h1>
+        <p>Welcome to our little site of culture and just plain old silliness!</p>
 
-    <span class="under-construction stripe-yellow">UNDER CONSTRUCTION</span>
-</div>
+        <span class="under-construction stripe-yellow">UNDER CONSTRUCTION</span>
+    </div>
 
-<footer>This website does not track you, because we frankly don't care who you are. &nbsp;&nbsp;Also [127.0.0.1] is/not your IP Address.</footer>
+    <footer>This website does not track you, because we frankly don"t care who you are. &nbsp;&nbsp;Also [127.0.0.1]
+        is/not your IP Address.</footer>
 
 </body>
+
+
+<script type="text/javascript">
+    const content = document.querySelector(".content");
+
+    async function interceptClickEvent(e) {
+        const target = e.target || e.srcElement;
+        if (target.tagName !== "A") {
+           return;
+        }
+
+        e.preventDefault();
+        const href = target.getAttribute("href");
+
+        const response = await fetch(href);
+        if (response.status !== 200) {
+            alert("You're a nauhty one, aren't you... ;)");
+        }
+
+        const responseData = await response.text();
+        content.innerHTML = responseData;
+    }
+
+    if (document.addEventListener) {
+        document.addEventListener("click", interceptClickEvent);
+    } else if (document.attachEvent) {
+        document.attachEvent("onclick", interceptClickEvent);
+    }
+</script>
 
 </html>
